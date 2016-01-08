@@ -1,0 +1,12 @@
+<group>
+	<num_shapes>40</num_shapes>
+	<bound>600, 700</bound>
+	<radius_range>5, 120</radius_range>
+	<noise_seed_range>0.01, 1</noise_seed_range>
+	<red_color_range>100, 255</red_color_range>
+	<green_color_range>100, 255</green_color_range>
+	<blue_color_range>100, 255</blue_color_range>
+	<smooth_param>16</smooth_param>
+	<fps>38.1622</fps>
+<group/>
+</group>
