@@ -6,7 +6,7 @@ void ofApp::setup(){
     ofSetFrameRate(60);
     ofSetBackgroundColor(255);
     ofSetCircleResolution(60);
-    ofSetWindowTitle("DentsuBlue Rorschach");
+    ofSetWindowTitle("Rorschach");
     
     ofEnableAlphaBlending();
     
@@ -51,10 +51,16 @@ void ofApp::setup(){
     }
     
     // Fbo
-    fbo.allocate(fboBound.getWidth(), fboBound.getHeight(), GL_RGBA32F_ARB, 8);
+    //fbo.allocate(fboBound.getWidth(), fboBound.getHeight(), GL_RGBA32F_ARB, 8);
+    fbo.allocate(fboBound.getWidth(), fboBound.getHeight());
     fbo.begin();
     ofClear(255, 255, 255, 0);
     fbo.end();
+    
+    
+    // InkSim
+    inkSim.setup();
+    inkSim.setDrawMode(ofxInkSim::INKFIX);
 }
 
 //--------------------------------------------------------------
@@ -66,6 +72,9 @@ void ofApp::update(){
     isDebug = gui.getIsDebug();
     
     drawIntoFbo();
+    
+    // InkSim
+    inkSim.update();
 }
 
 //--------------------------------------------------------------
@@ -86,16 +95,25 @@ void ofApp::draw(){
     }
      */
     
+    
     // Draw Fbos
+    inkSim.begin();
+    
     ofSetColor(255, 255);
     fbo.draw(0, 0, fboBound.getWidth(), fboBound.getHeight()); // left
     float _fx = fboBound.getX() + fboBound.getWidth();
     fbo.draw(_fx*2, 0, -fboBound.getWidth(), fboBound.getHeight()); // right
     
+    inkSim.end();
     
+
+    inkSim.draw();
+
+    
+    
+    // Debug visuals
     if(isDebug) {
         ofSetLineWidth(2.f);
-        
         ofSetColor(255, 255, 0);
         ofNoFill();
         ofDrawRectangle(polyBound.getX(), polyBound.getY(), polyBound.getWidth(), polyBound.getHeight());
@@ -131,6 +149,9 @@ void ofApp::drawIntoFbo() {
 
 //--------------------------------------------------------------
 void ofApp::reset() {
+    
+    inkSim.clear();
+    
     numPolyShape = gui.getNumShapes();
     
     isGrayScale = gui.getIsGrayScale();
@@ -191,7 +212,30 @@ void ofApp::refresh(ofxButton &tapped) {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if (key == 'c')
+    {
+        inkSim.clear();
+    }
+    else if (key == '1')
+    {
+        inkSim.setDrawMode(ofxInkSim::INKFIX);
+    }
+    else if (key == '2')
+    {
+        inkSim.setDrawMode(ofxInkSim::INKSURF);
+    }
+    else if (key == '3')
+    {
+        inkSim.setDrawMode(ofxInkSim::INKFLOW);
+    }
+    else if (key == '4')
+    {
+        inkSim.setDrawMode(ofxInkSim::WATERFLOW);
+    }
+    else if (key == 'd')
+    {
+        inkSim.toggleDebug();
+    }
 }
 
 

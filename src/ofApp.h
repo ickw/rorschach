@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "PolyShape.h"
 #include "Gui.h"
+#include "ofxInkSim.h"
 
 class ofApp : public ofBaseApp{
 
@@ -45,4 +46,6 @@ class ofApp : public ofBaseApp{
     
     
         bool isGrayScale;
+    
+        ofxInkSim inkSim;
 };
